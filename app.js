@@ -14,6 +14,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // Adding middleware
+// app.use is a good method to add middleware. Calling next() inside middleware will invoke either the 
+// next middleware or the route handler
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
