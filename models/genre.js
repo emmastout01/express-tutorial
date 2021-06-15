@@ -10,4 +10,4 @@ GenreSchema
 .virtual('url')
 .get(() => `catalog/genre/ ${this._id}`);
 
-module.exports = mongoose.connect('Genre', GenreSchema);
+module.exports = mongoose.model('Genre', GenreSchema);

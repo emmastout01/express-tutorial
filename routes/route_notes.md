@@ -6,7 +6,7 @@
 - In order to access route modules in our main app file, we `require(myRoute)` the module and then use `app.use('/myRoute, myRoute)` to add the router to the middleware handling path.
 
 
-### Some notes on router callbacks
+### Router callbacks
 
 The router callback takes 3 arguments, usually called `req`, `res`, and `next`. 
 - `req` refers to the HTTP Request object
@@ -38,4 +38,14 @@ router.get('/about', function (req, res) {
 })
 ```
 
+### Route params
 
+- Route parameters = named URL segments that are used to capture values at specific positions in the URL
+- These values are stored in the `req.params` object, using the param names as keys
+
+```
+router.get('/users/:userId/books), (req, res) => {
+    const userId = req.params.userId
+    res.send(`Your user id is ${userId}`)
+}
+```
