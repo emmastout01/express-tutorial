@@ -11,7 +11,7 @@ var app = express();
 
 // mongoose setup: creates default connection to the DB and binds to the error event
 const mongoose = require('mongoose');
-const mongoDB = 'mongodb+srv://estout:Welcome2019!@cluster0.t6kuv.mongodb.net/local_library?retryWrites=true&w=majority';
+const mongoDB = 'mongodb+srv://estout:Welcome2019@cluster0.t6kuv.mongodb.net/local_library?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
