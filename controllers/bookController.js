@@ -2,8 +2,9 @@ var Book = require('../models/book');
 var Author = require('../models/author');
 var Genre = require('../models/genre');
 var BookInstance = require('../models/bookinstance');
+var async = require('async');
+const book = require('../models/book');
 
-const async = require('async');
 // Get count of all of the documents, then pass those results to res.render
 exports.index = function (req, res) {
     async.parallel({
@@ -46,8 +47,29 @@ exports.book_list = function (req, res, next) {
 };
 
 // Display detail page for a specific book.
-exports.book_detail = function (req, res) {
-    res.send('NOT IMPLEMENTED: Book detail: ' + req.params.id);
+exports.book_detail = function (req, res, next) {
+    async.parallel({
+        book: function (callback) {
+            Book.findById(req.params.id)
+                .exec(callback)
+        },
+
+        book_instance: function (callback) {
+            BookInstance.find({ 'book': req.params.id })
+                .exec(callback)
+        },
+    }, function (err, results) {
+        if (err) return next(err)
+        if (results.book === null) {
+            var err = new Error('book not found');
+            err.status = 404;
+            return next(err);
+        }
+        res.render('book_detail', { title: results.book.title, book: results.book, book_instances: results.book_instance })
+    }
+
+    )
+
 };
 
 // Display book create form on GET.
