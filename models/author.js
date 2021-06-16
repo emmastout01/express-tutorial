@@ -10,9 +10,12 @@ const AuthorSchema = new Schema({
 });
 
 // Virtual for author's full name
+// NOTE: For some reason this isn't working with the book controller .populate('author') method, not sure why
+// However, the book url virtual IS working with the book controller. Hmm. Something about combining 'populate' with a virtual?
 AuthorSchema
     .virtual('name')
     .get(() => {
+        console.log('getting name: ', this.family_name)
         return `${this.family_name},  ${this.first_name}`
     });
 

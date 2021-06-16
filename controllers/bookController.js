@@ -33,8 +33,16 @@ exports.index = function (req, res) {
 };
 
 // Display list of all books.
-exports.book_list = function (req, res) {
-    res.send('NOT IMPLEMENTED: Book list');
+exports.book_list = function (req, res, next) {
+    // First, query the DB
+    Book.find({}, 'title author') // return the title and author fields for all books in the collection
+        .populate('author') // fill in the author's data from the author id
+        .exec(function (err, list_books) {
+            if (err) return next(err); // if there's an error pass it along
+            // Render the contents of the 'book_list' view file with the DB search results
+            console.log('books: ', list_books);
+            res.render('book_list', { title: 'Book list', book_list: list_books });
+        })
 };
 
 // Display detail page for a specific book.
